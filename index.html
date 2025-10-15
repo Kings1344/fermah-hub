@@ -1,40 +1,47 @@
-<
-                    <p class="font!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fermah Project Dashboard</title>
+
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         /* Custom styles for the dashboard feel */
         :root {
             --primary-color: #7C3AED; /* Violet 600 */
         }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0e0e1a; /* Very dark background */
         }
+
         .card {
             background-color: #1a1a2e; /* Darker card background */
             border: 1px solid #3f3f46; /* Gray border */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s, box-shadow 0.3s;
         }
+
         .card:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 15px rgba(124, 58, 237, 0.2);
         }
+
         .gradient-text {
             background: -webkit-linear-gradient(45deg, #a78bfa, #8b5cf6, #7c3aed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
         .header-bg {
             position: relative;
             overflow: hidden;
         }
+
         .header-bg::before {
             content: '';
             position: absolute;
@@ -45,15 +52,18 @@
             background-image: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.1), transparent 70%);
             z-index: 0;
         }
+
         .copy-btn {
             background-color: transparent;
             border: none;
             cursor: pointer;
             transition: color 0.2s;
         }
+
         .copy-btn:hover {
             color: #a78bfa; /* Light violet on hover */
         }
+
         .tooltip {
             visibility: hidden;
             background-color: #7C3AED;
@@ -71,11 +81,13 @@
             transition: opacity 0.3s;
             font-size: 0.75rem;
         }
+
         .copy-container:hover .tooltip {
             visibility: visible;
             opacity: 1;
         }
     </style>
+
     <script>
         tailwind.config = {
             theme: {
@@ -83,55 +95,48 @@
                     colors: {
                         'primary-violet': '#7C3AED',
                         'accent-green': '#34D399', /* For stats */
-                    }
-                }
-            }
-        }
+                    },
+                },
+            },
+        };
 
-        // IMPORTANT: Use document.execCommand('copy') for better iframe compatibility
+        // Copy text helper
         function copyText(elementId, buttonElement) {
             const element = document.getElementById(elementId);
             const textToCopy = element.innerText || element.textContent;
 
-            // Create a temporary textarea to hold the text
             const textarea = document.createElement('textarea');
             textarea.value = textToCopy;
             document.body.appendChild(textarea);
-            
-            // Select the text
+
             textarea.select();
-            
+
             try {
-                // Execute the copy command
                 const successful = document.execCommand('copy');
-                
                 if (successful) {
                     const originalTooltipText = buttonElement.getAttribute('data-tooltip');
                     const tooltip = buttonElement.querySelector('.tooltip');
-                    
+
                     if (tooltip) {
                         tooltip.textContent = 'Copied!';
-                        // Reset the tooltip text after a delay
                         setTimeout(() => {
                             tooltip.textContent = originalTooltipText;
                         }, 2000);
                     }
                 } else {
-                    console.error('Copy command was unsuccessful.');
+                    console.error('Copy command unsuccessful.');
                 }
             } catch (err) {
-                console.error('Oops, unable to copy', err);
+                console.error('Unable to copy text', err);
             } finally {
-                // Remove the temporary textarea
                 document.body.removeChild(textarea);
             }
         }
-
     </script>
 </head>
-<body class="text-white min-h-screen p-4 sm:p-8">
 
-    <!-- Header Section with CTA and Background Effect -->
+<body class="text-white min-h-screen p-4 sm:p-8">
+    <!-- Header Section -->
     <header class="text-center mb-12 header-bg rounded-lg pt-10 pb-8">
         <h1 class="text-5xl sm:text-7xl font-extrabold gradient-text mb-2 relative z-10">
             Fermah
@@ -139,9 +144,7 @@
         <p class="text-xl sm:text-2xl text-gray-300 font-light tracking-widest mb-8 relative z-10">
             The Universal Proof Generation Layer
         </p>
-
-        <!-- CTA Button -->
-        <a href="https://docs.fermah.xyz/" target="_blank" rel="noopener noreferrer" 
+        <a href="https://docs.fermah.xyz/" target="_blank" rel="noopener noreferrer"
            class="inline-block px-8 py-3 bg-primary-violet text-white font-bold text-lg rounded-full shadow-lg hover:bg-violet-600 transition duration-300 transform hover:scale-105 relative z-10">
             Start Proving Now &rarr;
         </a>
@@ -149,213 +152,87 @@
 
     <main class="max-w-7xl mx-auto">
 
-        <!-- Section 1: Project Overview (Expanded) -->
+        <!-- Section 1: Overview -->
         <section class="card rounded-xl p-6 md:p-8 mb-10">
-            <h2 class="text-3xl font-bold mb-4 border-b border-primary-violet pb-2">What Fermah is Building: Solving the ZK Bottleneck</h2>
+            <h2 class="text-3xl font-bold mb-4 border-b border-primary-violet pb-2">
+                What Fermah is Building: Solving the ZK Bottleneck
+            </h2>
             <p class="text-lg text-gray-300 leading-relaxed">
-                Fermah is building a decentralized, two-sided **marketplace** designed to solve the complexity and high cost associated with generating **Zero-Knowledge Proofs (ZKPs)**. While ZKPs are essential for the scalability and privacy of all modern blockchain applications (ZK rollups, zkEVMs, and ZK bridges), the current ecosystem faces severe bottlenecks:
+                Fermah is building a decentralized, two-sided <strong>marketplace</strong> designed to solve
+                the complexity and high cost associated with generating <strong>Zero-Knowledge Proofs (ZKPs)</strong>.
+                While ZKPs are essential for blockchain scalability and privacy, the current ecosystem faces major challenges:
             </p>
             <ul class="list-disc list-inside ml-4 text-gray-400 mt-4 space-y-2">
-                <li>**High Hardware Cost:** Proof generation demands massive computational power, primarily from specialized, expensive hardware (high-end GPUs, ASICs).</li>
-                <li>**Orchestration Complexity:** Projects must maintain complex, localized infrastructure to queue and manage proving jobs, leading to centralized points of failure.</li>
-                <li>**Inconsistent Speed:** Latency varies wildly based on available resources and proof complexity, impacting dApp user experience.</li>
+                <li><strong>High Hardware Cost:</strong> Proof generation requires massive computational power, mainly from expensive GPUs and ASICs.</li>
+                <li><strong>Orchestration Complexity:</strong> Projects must manage complex infrastructure for proving jobs, creating centralization risks.</li>
+                <li><strong>Inconsistent Speed:</strong> Latency varies widely based on resource availability and proof complexity.</li>
             </ul>
-
             <p class="text-lg text-gray-300 leading-relaxed mt-4">
-                Fermah's mission is to abstract away this infrastructure complexity, providing a **Universal Proof Generation Layer** that makes ZKPs **cheap, fast, and reliably accessible** for any developer. Critically, Fermah ensures **credible neutrality** by being architected to support *all* major proof systems—including zkVMs, zkEVMs, Groth16, PLONK, and STARKs—making it the end-game infrastructure for ZK computation.
+                Fermah’s mission is to make ZKPs <strong>cheap, fast, and reliably accessible</strong> for any developer. It ensures
+                <strong>credible neutrality</strong> by supporting all major proof systems — zkVMs, zkEVMs, Groth16, PLONK, and STARKs.
             </p>
         </section>
 
-        <!-- New Section 2: Live Metrics (Mocked) -->
+        <!-- Section 2: Network Stats -->
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-200">Network Statistics (Live on Testnet)</h2>
+            <h2 class="text-3xl font-bold mb-6 text-center text-gray-200">Network Statistics (Testnet)</h2>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
-                
-                <!-- Stat 1: Proofs Generated -->
                 <div class="card rounded-xl p-4 sm:p-6 text-center">
                     <p class="text-4xl sm:text-5xl font-extrabold text-accent-green">5.1M+</p>
                     <p class="text-sm sm:text-lg text-gray-400 mt-1">Proofs Generated</p>
                 </div>
-                
-                <!-- Stat 2: Active Prover Nodes -->
                 <div class="card rounded-xl p-4 sm:p-6 text-center">
                     <p class="text-4xl sm:text-5xl font-extrabold text-primary-violet">850+</p>
                     <p class="text-sm sm:text-lg text-gray-400 mt-1">Active Prover Nodes</p>
                 </div>
-                
-                <!-- Stat 3: Total Proof Capacity (Mocked Unit) -->
                 <div class="card rounded-xl p-4 sm:p-6 text-center">
                     <p class="text-4xl sm:text-5xl font-extrabold text-accent-green">1.2 P/s</p>
                     <p class="text-sm sm:text-lg text-gray-400 mt-1">Proof Capacity (PetaProofs/s)</p>
                 </div>
-                
-                <!-- Stat 4: Total Value Locked (Mocked) -->
                 <div class="card rounded-xl p-4 sm:p-6 text-center">
                     <p class="text-4xl sm:text-5xl font-extrabold text-primary-violet">$3.2M+</p>
-                    <p class="text-sm sm:text-lg text-gray-400 mt-1">Staked Value (via EigenLayer)</p>
+                    <p class="text-sm sm:text-lg text-gray-400 mt-1">Staked Value (EigenLayer)</p>
                 </div>
             </div>
         </section>
 
-
-        <!-- Section 3: Core Mechanism (The Marketplace) -->
+        <!-- Section 3: Marketplace -->
         <section class="mb-10">
             <h2 class="text-3xl font-bold mb-6 text-center gradient-text">The Proof Generation Marketplace</h2>
             <div class="grid md:grid-cols-3 gap-8 items-stretch">
-
-                <!-- Card 1: Seekers (Demand Side) -->
+                <!-- Seekers -->
                 <div class="card rounded-xl p-6 flex flex-col items-center text-center">
-                    <svg class="w-12 h-12 mb-4 text-primary-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <svg class="w-12 h-12 mb-4 text-primary-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
                     <h3 class="text-xl font-semibold mb-2 text-white hover:text-primary-violet transition duration-300">Seekers (Demand)</h3>
-                    <p class="text-gray-400">
-                        These are the users and projects (ZK rollups, DeFi protocols, privacy apps) that **request** proofs. They submit the computation they need verified without having to worry about the underlying hardware or proving process.
-                    </p>
+                    <p class="text-gray-400">Users or projects that request proofs without handling infrastructure complexity.</p>
                 </div>
 
-                <!-- Card 2: The Matchmaker (Orchestration) -->
+                <!-- Matchmaker -->
                 <div class="card rounded-xl p-6 flex flex-col items-center text-center border-2 border-primary-violet">
-                    <svg class="w-12 h-12 mb-4 text-primary-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                    <svg class="w-12 h-12 mb-4 text-primary-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4">
+                        </path>
+                    </svg>
                     <h3 class="text-xl font-semibold mb-2 text-white hover:text-primary-violet transition duration-300">Matchmaker (Orchestrator)</h3>
-                    <p class="text-gray-400">
-                        The core routing layer that intelligently connects Seekers' proof requests to the most optimal **Prover Node** based on speed, cost, and machine capability. It ensures efficient resource allocation across the network.
-                    </p>
+                    <p class="text-gray-400">Connects Seekers' proof requests to optimal Prover Nodes based on cost and speed.</p>
                 </div>
 
-                <!-- Card 3: Prover Nodes (Supply Side) -->
+                <!-- Prover Nodes -->
                 <div class="card rounded-xl p-6 flex flex-col items-center text-center">
-                    <svg class="w-12 h-12 mb-4 text-primary-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9h-3a8 8 0 01-8-8v4a3 3 0 00-3 3v1a3 3 0 003 3h4m-4-7a3 3 0 013-3h1m-1 7a3 3 0 003-3v-1a3 3 0 00-3-3m-1 14h2"></path></svg>
+                    <svg class="w-12 h-12 mb-4 text-primary-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9h-3a8 8 0 01-8-8v4a3 3 0 00-3 3v1a3 3 0 003 3h4">
+                        </path>
+                    </svg>
                     <h3 class="text-xl font-semibold mb-2 text-white hover:text-primary-violet transition duration-300">Prover Nodes (Supply)</h3>
-                    <p class="text-gray-400">
-                        The decentralized infrastructure providers who offer computational power (GPUs, FPGAs) to generate the proofs. Initially bootstrapped by **EigenLayer Operators** for enhanced security.
-                    </p>
+                    <p class="text-gray-400">Decentralized providers offering GPU power, bootstrapped by EigenLayer Operators.</p>
                 </div>
             </div>
         </section>
 
-        <!-- New Section 4: Economic Model and Native Token -->
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-200">The Fermah Economic Model ($\text{FERM}$)</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Card 1: Economic Structure -->
-                <div class="card rounded-xl p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-4 text-primary-violet hover:text-white transition duration-300">Incentive Alignment</h3>
-                    <p class="text-gray-300 mb-4">
-                        Fermah operates on a two-sided market model powered by a native token ($\text{FERM}$), designed to align incentives, guarantee proof quality, and ensure the network is sufficiently decentralized and capitalized.
-                    </p>
-                    <ul class="space-y-3 text-gray-300">
-                        <li class="flex items-start">
-                            <span class="mr-3 text-accent-green font-bold text-xl">💰</span>
-                            <div>
-                                <strong class="text-white">Seeker Payments:</strong> Seekers pay fees (in $\text{ETH}$ or stablecoins) for proof generation. This demand-side revenue is primarily distributed to Prover Nodes.
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="mr-3 text-accent-green font-bold text-xl">🎁</span>
-                            <div>
-                                <strong class="text-white">Prover Rewards:</strong> Prover Nodes receive fees for computational work, plus block rewards in $\text{FERM}$ for their service and staking security.
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Card 2: FERM Utility -->
-                <div class="card rounded-xl p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-4 text-primary-violet hover:text-white transition duration-300">Native Token Utility ($\text{FERM}$)</h3>
-                    <p class="text-gray-300 mb-4">
-                        The $\text{FERM}$ token is the cornerstone of the network's decentralized governance and security layer.
-                    </p>
-                    <ul class="space-y-3 text-gray-300">
-                        <li class="flex items-start">
-                            <span class="mr-3 text-primary-violet font-bold text-xl">🏛️</span>
-                            <div>
-                                <strong class="text-white">Governance:</strong> $\text{FERM}$ holders participate in governance decisions, voting on protocol upgrades, fee structures, and resource allocation.
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="mr-3 text-primary-violet font-bold text-xl">🔒</span>
-                            <div>
-                                <strong class="text-white">Staking & Slashing:</strong> Provers must stake $\text{FERM}$ (or re-stake $\text{ETH}$ via EigenLayer) to participate. This stake is subject to slashing if a node acts maliciously or fails to complete jobs reliably.
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="mr-3 text-primary-violet font-bold text-xl">🔥</span>
-                            <div>
-                                <strong class="text-white">Fee Discount & Burning:</strong> Using $\text{FERM}$ for proof payments grants fee discounts, and a portion of all network fees is proposed to be periodically burned to maintain deflationary pressure.
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Section 5: Value Proposition & Technical Deep Dive (Re-numbered Section) -->
-        <section class="grid md:grid-cols-3 gap-8">
-
-            <!-- Card 4: Key Value Proposition -->
-            <div class="card rounded-xl p-6 md:p-8">
-                <h3 class="text-2xl font-bold mb-4 text-primary-violet hover:text-white transition duration-300">Fermah's Core Value</h3>
-                <ul class="space-y-4 text-gray-300">
-                    <li class="flex items-start">
-                        <span class="mr-3 text-accent-green font-bold text-xl">&check;</span>
-                        <div>
-                            <strong class="text-white">Universal Proving:</strong> Architected to support all proof systems (zkVMs, zkEVMs, Groth16, STARKs), making it credibly neutral.
-                        </div>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-3 text-accent-green font-bold text-xl">&check;</span>
-                        <div>
-                            <strong class="text-white">Economic Efficiency:</strong> Aggregates demand to achieve economies of scale, drastically reducing proof generation costs through competition.
-                        </div>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-3 text-accent-green font-bold text-xl">&check;</span>
-                        <div>
-                            <strong class="text-white">Reliability & Speed:</strong> Intelligent orchestration ensures maximum machine utilization, guaranteeing fast and dependable proof generation.
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Card 5: Technical Deep Dive -->
-            <div class="card rounded-xl p-6 md:p-8">
-                <h3 class="text-2xl font-bold mb-4 text-primary-violet hover:text-white transition duration-300">Technical Deep Dive</h3>
-                <ul class="space-y-4 text-gray-300">
-                    <li class="flex items-start">
-                        <span class="mr-3 text-primary-violet font-bold text-xl">🛡️</span>
-                        <div>
-                            <strong class="text-white">EigenLayer Security:</strong> The supply side is bootstrapped by **EigenLayer Operators**, leveraging restaking to enforce honest behavior and enhance cryptoeconomic trust.
-                        </div>
-                    </li>
-                    <li class="flex items-start relative copy-container">
-                        <span class="mr-3 text-primary-violet font-bold text-xl">🔒</span>
-                        <div>
-                            <strong class="text-white" id="confidential-delegation-text">Confidential Delegation:</strong> Features Data-Protected Proving Delegation (CPD), ensuring that sensitive input data remains completely confidential from the Prover Nodes during job execution.
-                        </div>
-                        <!-- Copy Button -->
-                        <button class="copy-btn absolute top-0 right-0 p-1 text-gray-500 hover:text-primary-violet" 
-                                onclick="copyText('confidential-delegation-text', this)"
-                                data-tooltip="Copy description">
-                            <!-- Copy Icon (Lucide: Copy) -->
-                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
-                                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
-                            </svg>
-                            <span class="tooltip">Copy description</span>
-                        </button>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-3 text-primary-violet font-bold text-xl">♻️</span>
-                        <div>
-                            <strong class="text-white">Fault Tolerance & Recovery:</strong> A robust **Workflow Engine** uses a **Storage Layer** to save intermediate outputs, allowing computations to resume from the last successful checkpoint instead of restarting from scratch.
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-
-            <!-- Card 6: Development & Adoption Status -->
-            <div class="card rounded-xl p-6 md:p-8">
-                <h3 class="text-2xl font-bold mb-4 text-primary-violet hover:text-white transition duration-300">Development & Ecosystem</h3>
-
-                <div class="mb-4">-semibold text-white">Testnet Phases (Proof of Concept
+    </main>
+</body>
+</html>
